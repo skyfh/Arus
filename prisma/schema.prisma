@@ -75,6 +75,7 @@ model User {
   zekeEnabled   Boolean      @default(true) // kill switch in Settings
   createdAt     DateTime     @default(now())
   requests      PaymentRequest[]
+  allowancesGiven Allowance[] @relation("AllowancesGiven")
 }
 
 model Contact {
@@ -135,6 +136,7 @@ model Receipt {
 model Allowance {
   id                String          @id @default(cuid())
   funderId          String
+  funder            User            @relation("AllowancesGiven", fields: [funderId], references: [id])
   spenderAddress    String
   spenderLabel      String
   name              String
