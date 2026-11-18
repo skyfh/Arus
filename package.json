@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
-    "start": "prisma migrate deploy && next start -p ${PORT:-3000}",
+    "start": "next start -p ${PORT:-3000}",
     "lint": "eslint",
     "smoke": "tsx --env-file=.env scripts/smoke-v2.mts",
     "smoke:zeke": "tsx --env-file=.env scripts/smoke-zeke.mts",
