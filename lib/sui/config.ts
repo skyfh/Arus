@@ -2,7 +2,10 @@
 import { SuiGrpcClient } from '@mysten/sui/grpc';
 
 export const SUI_NETWORK = 'testnet' as const;
-export const TESTNET_CHAIN_ID = '4c78adac';
+// v2 amendment (user-approved): the live testnet chain identifier returned by
+// SuiGrpcClient.core.getChainIdentifier() is the base64 chain digest below. The
+// hex form '4c78adac' from the original v2 prompt no longer matches what the SDK returns.
+export const TESTNET_CHAIN_ID = '69WiPg3DAQiwdxfncX6wYQ2siKwAe6L9BZthQea3JNMD';
 export const SUI_RPC_URL = process.env.NEXT_PUBLIC_SUI_RPC_URL ?? 'https://fullnode.testnet.sui.io:443';
 export const SUI_GRAPHQL_URL = process.env.NEXT_PUBLIC_SUI_GRAPHQL_URL ?? 'https://graphql.testnet.sui.io/graphql';
 /** Circle testnet USDC on Sui. Shown to users as "USD". */

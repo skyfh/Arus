@@ -7,8 +7,8 @@
     "build": "next build --turbopack",
     "start": "prisma migrate deploy && next start -p ${PORT:-3000}",
     "lint": "eslint",
-    "smoke": "tsx --env-file=.env scripts/smoke-v2.ts",
-    "smoke:zeke": "tsx --env-file=.env scripts/smoke-zeke.ts",
+    "smoke": "tsx --env-file=.env scripts/smoke-v2.mts",
+    "smoke:zeke": "tsx --env-file=.env scripts/smoke-zeke.mts",
     "eval:zeke": "tsx --env-file=.env scripts/eval-zeke.ts",
     "postinstall": "prisma generate"
   },
