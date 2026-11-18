@@ -1,27 +1,33 @@
 @import "tailwindcss";
 
-/* Arus brand — warm paper, deep teal ink, single gold accent. */
+/* Arus brand — deep dark-cyan ink, glass surfaces, single gold accent. */
 :root {
-  --bg: #F6F0ED;
-  --surface: #FFFFFF;
-  --surface-2: #FBF7F5;
-  --line: #E5DCD6;
-  --line-strong: #C9BDB5;
-  --ink: #1F4452;
-  --ink-muted: #4E6F78;
-  --slate: #326273;
-  --teal: #5C9EAD;
+  --bg: #EAF3F4;
+  --bg-gradient: radial-gradient(1200px 600px at 15% -10%, #DDEFF1 0%, transparent 60%),
+                 radial-gradient(1000px 500px at 110% 10%, #E9F5F6 0%, transparent 55%),
+                 linear-gradient(180deg, #F2F8F9 0%, #E7F1F3 100%);
+  --surface: rgba(255, 255, 255, 0.72);
+  --surface-solid: #FFFFFF;
+  --surface-2: rgba(255, 255, 255, 0.55);
+  --glass-border: rgba(31, 68, 82, 0.12);
+  --line: rgba(31, 68, 82, 0.10);
+  --line-strong: rgba(31, 68, 82, 0.22);
+  --ink: #0E3340;
+  --ink-muted: #3E6473;
+  --slate: #0F5468;
+  --teal: #16808F;
+  --teal-deep: #073B48;
   --gold: #D9A441;
   --gold-tint: #FDF3DC;
   --gold-ink: #7A5410;
-  --ok: #2E7D6B;
-  --ok-bg: #E4F1ED;
+  --ok: #1F7A67;
+  --ok-bg: #E0F1EC;
   --warn: #B4690E;
   --warn-bg: #FBEFDD;
   --error: #B3402F;
   --error-bg: #F9E7E3;
-  --pending: #6B7C85;
-  --pending-bg: #EDEFF0;
+  --pending: #587680;
+  --pending-bg: #EAF0F2;
 
   --background: var(--bg);
   --foreground: var(--ink);
@@ -46,7 +52,8 @@
 }
 
 body {
-  background: var(--bg);
+  background: var(--bg-gradient) fixed, var(--bg);
+  background-attachment: fixed;
   color: var(--ink);
   font-family: var(--font-geist-sans), Arial, sans-serif;
 }
@@ -54,17 +61,48 @@ body {
 /* Numbers line up in columns */
 .tnum { font-variant-numeric: tabular-nums; }
 
-/* Card: white, 20px radius, 1px border, lifts slightly on hover */
+/* Glass card: frosted translucency, subtle border, soft cyan shadow, lifts on hover */
 .card {
   background: var(--surface);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  backdrop-filter: blur(16px) saturate(1.4);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(7, 59, 72, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  transition: box-shadow 200ms ease, transform 200ms ease, border-color 200ms ease;
+}
+.card:hover {
+  box-shadow: 0 12px 40px rgba(7, 59, 72, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  border-color: var(--line-strong);
+}
+
+/* Solid card variant (forms, dialogs — maximum legibility) */
+.card-solid {
+  background: var(--surface-solid);
   border: 1px solid var(--line);
   border-radius: 20px;
-  transition: box-shadow 160ms ease, transform 160ms ease;
+  box-shadow: 0 8px 32px rgba(7, 59, 72, 0.10);
 }
-.card:hover { box-shadow: 0 6px 16px rgba(31, 68, 82, 0.08); }
+
+/* Dark-cyan hero/balance panel with glass sheen */
+.panel-deep {
+  background: linear-gradient(135deg, var(--teal-deep) 0%, var(--slate) 60%, var(--teal) 130%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 20px;
+  box-shadow: 0 16px 48px rgba(7, 59, 72, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  position: relative;
+  overflow: hidden;
+}
+.panel-deep::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(600px 300px at 85% -20%, rgba(255, 255, 255, 0.18) 0%, transparent 60%);
+  pointer-events: none;
+}
 
 @media (prefers-reduced-motion: reduce) {
-  .card, .card:hover { transition: none; transform: none; box-shadow: none; }
+  .card, .card:hover, .card-solid { transition: none; transform: none; }
 }
 
 /* Visible focus rings everywhere */
@@ -75,30 +113,35 @@ body {
 
 /* Primary gold button */
 .btn-primary {
-  background: var(--gold);
+  background: linear-gradient(180deg, var(--gold) 0%, #C8932F 100%);
   color: var(--gold-ink);
   border-radius: 12px;
   font-weight: 600;
   padding: 10px 18px;
   border: 1px solid var(--gold);
+  box-shadow: 0 2px 8px rgba(217, 164, 65, 0.35);
 }
-.btn-primary:hover { filter: brightness(1.05); }
+.btn-primary:hover { filter: brightness(1.06); box-shadow: 0 4px 12px rgba(217, 164, 65, 0.45); }
 .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
 
 .btn-secondary {
   background: var(--surface);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
   color: var(--ink);
   border-radius: 12px;
   font-weight: 600;
   padding: 10px 18px;
   border: 1px solid var(--line-strong);
 }
-.btn-secondary:hover { background: var(--surface-2); }
+.btn-secondary:hover { background: var(--surface-2); border-color: var(--teal); }
 
 /* Form fields */
 .field {
   width: 100%;
   background: var(--surface);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
   border: 1px solid var(--line-strong);
   border-radius: 12px;
   padding: 10px 14px;

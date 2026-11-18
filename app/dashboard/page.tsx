@@ -17,7 +17,7 @@ export default function DashboardPage() {
   return (
     <main className="flex min-h-screen">
       {/* Sidebar (desktop) */}
-      <aside className="hidden lg:flex w-56 flex-col gap-1 p-4 border-r border-[color:var(--line)] bg-[color:var(--surface)]" aria-label="Main navigation">
+      <aside className="hidden lg:flex w-56 flex-col gap-1 p-4 border-r border-[color:var(--glass-border)] bg-[color:var(--surface)] backdrop-blur-xl" aria-label="Main navigation">
         <p className="font-bold text-[color:var(--ink)] px-3 py-2">Arus</p>
         {([
           ['Home', '/dashboard', true],
@@ -45,7 +45,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Mobile bottom tabs */}
-      <nav className="lg:hidden fixed bottom-0 inset-x-0 bg-[color:var(--surface)] border-t border-[color:var(--line)] flex" aria-label="Mobile navigation">
+      <nav className="lg:hidden fixed bottom-0 inset-x-0 bg-[color:var(--surface)] backdrop-blur-xl border-t border-[color:var(--glass-border)] flex" aria-label="Mobile navigation">
         {([
           ['Home', '/dashboard'],
           ['Get paid', '/dashboard/requests'],

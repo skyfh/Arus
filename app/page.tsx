@@ -60,7 +60,7 @@ export default function LandingPage() {
           <div className="self-start rounded-2xl px-4 py-2 text-sm border border-[color:var(--line)]">
             Here it is — check and confirm.
           </div>
-          <div className="border border-[color:var(--gold)] rounded-2xl p-4 bg-[color:var(--surface-2)]" aria-label="Example confirm card">
+          <div className="border border-[color:var(--gold)] rounded-2xl p-4 bg-[color:var(--surface)] backdrop-blur-md" aria-label="Example confirm card">
             <p className="text-xs font-semibold text-[color:var(--gold-ink)]">Review · drafted by Zeke</p>
             <p className="text-2xl font-bold tnum mt-1">$6.80</p>
             <p className="font-bold">Mak</p>

@@ -65,19 +65,19 @@ export function HomeTab() {
   return (
     <div className="flex flex-col gap-6">
       {/* Balance card */}
-      <section className="rounded-[20px] p-8 text-white" style={{ background: 'var(--ink)' }} aria-label="Balance">
-        <div className="flex items-start justify-between">
+      <section className="panel-deep p-8 text-white" aria-label="Balance">
+        <div className="relative z-10 flex items-start justify-between">
           <div>
             <p className="text-sm opacity-80">Total balance</p>
             <p className="text-4xl font-bold tnum mt-1">{hidden ? '••••' : data.usdFormatted}</p>
             {myr && <p className="text-sm opacity-80 tnum mt-1">{hidden ? '••••' : `≈ ${myr.formatted}`}</p>}
           </div>
           <button onClick={() => setHidden(!hidden)} aria-label={hidden ? 'Show amounts' : 'Hide amounts'}
-            className="rounded-full bg-white/10 px-3 py-2 text-sm">{hidden ? '👁' : '🙈'}</button>
+            className="rounded-full bg-white/15 px-3 py-2 text-sm">{hidden ? '👁' : '🙈'}</button>
         </div>
-        <div className="flex gap-2 mt-4">
+        <div className="relative z-10 flex gap-2 mt-4">
           <span className="rounded-full bg-[color:var(--ok)] px-3 py-1 text-xs font-medium">Basic verified</span>
-          <span className="rounded-full bg-white/10 px-3 py-1 text-xs">Testnet</span>
+          <span className="rounded-full bg-white/15 px-3 py-1 text-xs">Testnet</span>
         </div>
       </section>
 

@@ -149,7 +149,7 @@ function ZekeInner() {
 
   return (
     <div className="flex flex-col h-screen">
-      <header className="p-4 border-b border-[color:var(--line)] bg-[color:var(--surface)]">
+      <header className="p-4 border-b border-[color:var(--glass-border)] bg-[color:var(--surface)] backdrop-blur-xl">
         <div className="max-w-3xl mx-auto flex items-center justify-between">
           <div>
             <h1 className="text-lg font-bold">Zeke</h1>
@@ -264,7 +264,7 @@ function ZekeInner() {
         </div>
       )}
 
-      <footer className="p-4 border-t border-[color:var(--line)] bg-[color:var(--surface)]">
+      <footer className="p-4 border-t border-[color:var(--glass-border)] bg-[color:var(--surface)] backdrop-blur-xl">
         <form onSubmit={(e) => { e.preventDefault(); send(input); }} className="max-w-3xl mx-auto flex gap-2">
           <input
             className="field flex-1" placeholder="Type what you want…"
