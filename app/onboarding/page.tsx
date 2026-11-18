@@ -1,13 +1,23 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { Suspense, useEffect, useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { loadOrCreateWallet } from '@/lib/sui/local-wallet';
 
 type Step = 1 | 2 | 3;
 
 export default function OnboardingPage() {
+  return (
+    <Suspense fallback={<main className="min-h-screen grid place-items-center"><p className="text-sm" role="status">Loading…</p></main>}>
+      <OnboardingInner />
+    </Suspense>
+  );
+}
+
+function OnboardingInner() {
   const router = useRouter();
+  const params = useSearchParams();
+  const next = params.get('next') || '/dashboard';
   const [step, setStep] = useState<Step>(1);
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
@@ -122,7 +132,7 @@ export default function OnboardingPage() {
             <p className="text-sm text-[color:var(--ink-muted)]">
               Your wallet is ready, verification is done, and $20 of test money is in your account.
             </p>
-            <button onClick={() => router.push('/dashboard')} className="btn-primary">Go to your dashboard</button>
+            <button onClick={() => router.push(next)} className="btn-primary">Go to your dashboard</button>
           </section>
         )}
 

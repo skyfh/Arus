@@ -74,6 +74,7 @@ model User {
   giftAt        DateTime?
   zekeEnabled   Boolean      @default(true) // kill switch in Settings
   createdAt     DateTime     @default(now())
+  requests      PaymentRequest[]
 }
 
 model Contact {
@@ -93,6 +94,7 @@ model PaymentRequest {
   slug         String        @unique
   number       String // INV-0001 per payee
   payeeId      String
+  payee        User          @relation(fields: [payeeId], references: [id])
   amountMinor  String
   description  String // UNTRUSTED when shown to Zeke
   payerName    String?
