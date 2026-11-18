@@ -54,12 +54,11 @@ export function PayRequestClient({ slug, amountMinor }: { slug: string; amountMi
         return;
       }
       const kp = loadOrCreateWallet(meNow.id);
-      const tx = buildSendUsd({ sender: kp.toSuiAddress(), recipient: meNow.suiAddress, amountMinor: 0n }); // replaced below
       // Determine payee address from the request (public endpoint)
       const req = await fetch(`/api/public/requests/${slug}`).then(r => r.json());
       const payee = await fetch(`/api/users/resolve?handle=${encodeURIComponent(req.payeeHandle)}`).then(r => r.json());
-      const tx2 = buildSendUsd({ sender: kp.toSuiAddress(), recipient: payee.address, amountMinor: BigInt(amountMinor) });
-      const run = await signAndRun(kp, tx2);
+      const tx = buildSendUsd({ sender: kp.toSuiAddress(), recipient: payee.address, amountMinor: BigInt(amountMinor) });
+      const run = await signAndRun(kp, tx);
       const c = await fetch('/api/payments/confirm', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -71,7 +70,6 @@ export function PayRequestClient({ slug, amountMinor }: { slug: string; amountMi
       if (!c.ok) throw new Error(j.error ?? 'Could not record the payment.');
       setReceiptId(j.receiptId);
       setStatus('paid');
-      void tx; // (first build was a dry shape check; removed above)
     } catch (e) {
       setError(e instanceof Error ? e.message : 'The payment could not be completed.');
     }
