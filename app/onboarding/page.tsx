@@ -3,14 +3,12 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { loadOrCreateWallet } from '@/lib/sui/local-wallet';
-import { formatUsd } from '@/lib/sui/money';
 
 type Step = 1 | 2 | 3;
 
 export default function OnboardingPage() {
   const router = useRouter();
   const [step, setStep] = useState<Step>(1);
-  const [userId, setUserId] = useState<string | null>(null);
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
   const [giftDigest, setGiftDigest] = useState<string | null>(null);
@@ -24,7 +22,6 @@ export default function OnboardingPage() {
       try {
         const me = await fetch('/api/me').then((r) => r.json());
         if (!me.id) { router.push('/login'); return; }
-        setUserId(me.id);
 
         const kp = loadOrCreateWallet(me.id);
         const saved = await fetch('/api/wallet', {
@@ -121,13 +118,14 @@ export default function OnboardingPage() {
 
         {step === 3 && (
           <section aria-labelledby="ob3" className="text-center flex flex-col gap-4">
-            <h1 id="ob3" className="text-2xl font-bold">You're all set</h1>
+            <h1 id="ob3" className="text-2xl font-bold">You&apos;re all set</h1>
             <p className="text-sm text-[color:var(--ink-muted)]">
               Your wallet is ready, verification is done, and $20 of test money is in your account.
             </p>
             <button onClick={() => router.push('/dashboard')} className="btn-primary">Go to your dashboard</button>
           </section>
         )}
+
       </div>
     </main>
   );
