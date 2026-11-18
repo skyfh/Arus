@@ -1,0 +1,177 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum AccountType {
+  PERSONAL
+  BUSINESS
+}
+enum KycTier {
+  NONE
+  BASIC
+  FULL_PENDING
+  FULL
+}
+enum ExchangeLink {
+  NONE
+  PENDING
+  LINKED
+}
+enum RequestStatus {
+  OPEN
+  PAID
+  CANCELLED
+}
+enum PaymentKind {
+  SEND
+  REQUEST_PAYMENT
+  ALLOWANCE_DRAW
+  TOP_UP
+  CASH_OUT
+}
+enum AllowanceStatus {
+  ACTIVE
+  CANCELLED
+}
+enum CashOutDestination {
+  RYT_BANK
+  TNG_EWALLET
+  OTHER_DUITNOW
+  JOMPAY_BILL
+}
+enum DraftKind {
+  SEND
+  PAY_REQUEST
+  CREATE_REQUEST
+  CASH_OUT
+}
+enum DraftStatus {
+  PENDING
+  CONFIRMED
+  EXPIRED
+  CANCELLED
+}
+
+model User {
+  id            String       @id @default(cuid())
+  email         String       @unique
+  passwordHash  String
+  name          String
+  handle        String       @unique // lowercase, [a-z0-9_]{3,20}; shown as name@arus
+  accountType   AccountType  @default(PERSONAL)
+  businessName  String?
+  suiAddress    String?      @unique
+  kycTier       KycTier      @default(NONE)
+  kycCountry    String?
+  kycIdType     String?
+  kycIdLast4    String? // NEVER the full ID number
+  exchangeLink  ExchangeLink @default(NONE)
+  giftAt        DateTime?
+  zekeEnabled   Boolean      @default(true) // kill switch in Settings
+  createdAt     DateTime     @default(now())
+}
+
+model Contact {
+  // created ONLY by the user in the UI, never by Zeke
+  id        String   @id @default(cuid())
+  ownerId   String
+  label     String // "Mak"
+  handle    String? // resolves to a User
+  address   String? // or a raw Sui address the user pasted
+  createdAt DateTime @default(now())
+
+  @@unique([ownerId, label])
+}
+
+model PaymentRequest {
+  id           String        @id @default(cuid())
+  slug         String        @unique
+  number       String // INV-0001 per payee
+  payeeId      String
+  amountMinor  String
+  description  String // UNTRUSTED when shown to Zeke
+  payerName    String?
+  lineItems    Json?
+  status       RequestStatus @default(OPEN)
+  paidTxDigest String?       @unique
+  paidBy       String?
+  paidAt       DateTime?
+  createdAt    DateTime      @default(now())
+}
+
+model Payment {
+  id           String  @id @default(cuid())
+  kind         PaymentKind
+  fromAddress  String
+  toAddress    String
+  amountMinor  String
+  txDigest     String  @unique
+  note         String?
+  requestId    String?
+  allowanceId  String?
+  draftId      String? // set when Zeke drafted it
+  createdAt    DateTime @default(now())
+  receipt      Receipt?
+}
+
+model Receipt {
+  id           String   @id @default(cuid()) // public token for /receipt/[id]
+  paymentId    String   @unique
+  payment      Payment  @relation(fields: [paymentId], references: [id])
+  body         Json // exactly the JSON that was hashed
+  sha256       String
+  walrusBlobId String?
+  walrusUrl    String?
+  createdAt    DateTime @default(now())
+}
+
+model Allowance {
+  id                String          @id @default(cuid())
+  funderId          String
+  spenderAddress    String
+  spenderLabel      String
+  name              String
+  monthlyLimitMinor String
+  expiresAt         DateTime
+  allowanceObjectId String          @unique
+  capObjectId       String
+  createTx          String
+  status            AllowanceStatus @default(ACTIVE)
+  cancelTx          String?
+  createdAt         DateTime        @default(now())
+}
+
+model CashOut {
+  id            String             @id @default(cuid())
+  userId        String
+  destination   CashOutDestination
+  bankName      String?
+  billerCode    String?
+  accountHolder String
+  accountLast4  String // NEVER the full account, phone or bill reference
+  amountMinor   String
+  feeMinor      String
+  rate          String
+  myrSen        String
+  txDigest      String             @unique
+  createdAt     DateTime           @default(now())
+}
+
+model ZekeDraft {
+  id           String      @id @default(cuid())
+  userId       String
+  kind         DraftKind
+  payload      Json // validated, server-resolved: recipientAddress, recipientName, source, amountMinor, myrShown, note…
+  sources      Json // per-field origin: "typed" | "contact" | "handle" | "request" | "image"
+  draftHash    String // sha256 of canonical payload
+  needsStepUp  Boolean
+  warnings     Json // ["first_payment_to_recipient","lookalike_address","urgency_language",...]
+  status       DraftStatus @default(PENDING)
+  expiresAt    DateTime
+  createdAt    DateTime    @default(now())
+}
