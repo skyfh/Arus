@@ -1,22 +1,26 @@
 @import "tailwindcss";
 
-/* Arus brand — deep dark-cyan ink, glass surfaces, single gold accent. */
+/* Arus brand — "Lagoon Luxe" (coolors.co/0a2e36-1f8a8c-9fd8cb-f7f3ea-d9a441)
+   Soft: 1F8A8C dark cyan, 9FD8CB pearl aqua, F7F3EA floral white.
+   Hard: 0A2E36 jet black-teal (structure), D9A441 honey bronze (primary CTA). */
 :root {
-  --bg: #EAF3F4;
-  --bg-gradient: radial-gradient(1200px 600px at 15% -10%, #DDEFF1 0%, transparent 60%),
-                 radial-gradient(1000px 500px at 110% 10%, #E9F5F6 0%, transparent 55%),
-                 linear-gradient(180deg, #F2F8F9 0%, #E7F1F3 100%);
+  --bg: #F7F3EA;
+  --bg-gradient: radial-gradient(1200px 600px at 15% -10%, #E4F4F1 0%, transparent 60%),
+                 radial-gradient(1000px 500px at 110% 10%, #EFF7F4 0%, transparent 55%),
+                 linear-gradient(180deg, #FAF7F0 0%, #F0EDE3 100%);
   --surface: rgba(255, 255, 255, 0.72);
   --surface-solid: #FFFFFF;
   --surface-2: rgba(255, 255, 255, 0.55);
-  --glass-border: rgba(31, 68, 82, 0.12);
-  --line: rgba(31, 68, 82, 0.10);
-  --line-strong: rgba(31, 68, 82, 0.22);
-  --ink: #0E3340;
-  --ink-muted: #3E6473;
-  --slate: #0F5468;
-  --teal: #16808F;
-  --teal-deep: #073B48;
+  --glass-border: rgba(10, 46, 54, 0.12);
+  --line: rgba(10, 46, 54, 0.10);
+  --line-strong: rgba(10, 46, 54, 0.22);
+  --ink: #0A2E36;
+  --ink-muted: #3E5E66;
+  --slate: #10555E;
+  --teal: #1F8A8C;
+  --teal-deep: #0A2E36;
+  --aqua: #9FD8CB;
+  --aqua-tint: #E4F4F1;
   --gold: #D9A441;
   --gold-tint: #FDF3DC;
   --gold-ink: #7A5410;
@@ -46,6 +50,8 @@
   --color-gold-tint: var(--gold-tint);
   --color-gold-ink: var(--gold-ink);
   --color-teal: var(--teal);
+  --color-aqua: var(--aqua);
+  --color-aqua-tint: var(--aqua-tint);
   --color-slate: var(--slate);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
@@ -61,18 +67,18 @@ body {
 /* Numbers line up in columns */
 .tnum { font-variant-numeric: tabular-nums; }
 
-/* Glass card: frosted translucency, subtle border, soft cyan shadow, lifts on hover */
+/* Glass card: frosted translucency, subtle border, soft teal shadow, lifts on hover */
 .card {
   background: var(--surface);
   -webkit-backdrop-filter: blur(16px) saturate(1.4);
   backdrop-filter: blur(16px) saturate(1.4);
   border: 1px solid var(--glass-border);
   border-radius: 20px;
-  box-shadow: 0 8px 32px rgba(7, 59, 72, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  box-shadow: 0 8px 32px rgba(10, 46, 54, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.6);
   transition: box-shadow 200ms ease, transform 200ms ease, border-color 200ms ease;
 }
 .card:hover {
-  box-shadow: 0 12px 40px rgba(7, 59, 72, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  box-shadow: 0 12px 40px rgba(10, 46, 54, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.7);
   border-color: var(--line-strong);
 }
 
@@ -81,15 +87,15 @@ body {
   background: var(--surface-solid);
   border: 1px solid var(--line);
   border-radius: 20px;
-  box-shadow: 0 8px 32px rgba(7, 59, 72, 0.10);
+  box-shadow: 0 8px 32px rgba(10, 46, 54, 0.10);
 }
 
-/* Dark-cyan hero/balance panel with glass sheen */
+/* Lagoon hero/balance panel: jet black-teal → dark cyan with aqua sheen */
 .panel-deep {
-  background: linear-gradient(135deg, var(--teal-deep) 0%, var(--slate) 60%, var(--teal) 130%);
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: linear-gradient(135deg, var(--teal-deep) 0%, #0F4A50 55%, var(--teal) 130%);
+  border: 1px solid rgba(159, 216, 203, 0.25);
   border-radius: 20px;
-  box-shadow: 0 16px 48px rgba(7, 59, 72, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  box-shadow: 0 16px 48px rgba(10, 46, 54, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.25);
   position: relative;
   overflow: hidden;
 }
@@ -97,7 +103,7 @@ body {
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(600px 300px at 85% -20%, rgba(255, 255, 255, 0.18) 0%, transparent 60%);
+  background: radial-gradient(600px 300px at 85% -20%, rgba(159, 216, 203, 0.22) 0%, transparent 60%);
   pointer-events: none;
 }
 
@@ -107,11 +113,11 @@ body {
 
 /* Visible focus rings everywhere */
 :focus-visible {
-  outline: 2px solid var(--slate);
+  outline: 2px solid var(--teal);
   outline-offset: 2px;
 }
 
-/* Primary gold button */
+/* Primary honey-bronze button */
 .btn-primary {
   background: linear-gradient(180deg, var(--gold) 0%, #C8932F 100%);
   color: var(--gold-ink);
@@ -148,6 +154,7 @@ body {
   color: var(--ink);
 }
 .field::placeholder { color: var(--ink-muted); opacity: 0.7; }
+.field:focus { border-color: var(--teal); outline: none; }
 
 /* Testnet banner */
 .testnet-banner {
@@ -156,4 +163,12 @@ body {
   font-size: 13px;
   text-align: center;
   padding: 6px 12px;
+}
+
+/* Aqua chips/badges (soft) */
+.chip-aqua {
+  background: var(--aqua-tint);
+  color: var(--slate);
+  border: 1px solid var(--aqua);
+  border-radius: 999px;
 }
