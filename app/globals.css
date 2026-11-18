@@ -1,26 +1,116 @@
 @import "tailwindcss";
 
+/* Arus brand — warm paper, deep teal ink, single gold accent. */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #F6F0ED;
+  --surface: #FFFFFF;
+  --surface-2: #FBF7F5;
+  --line: #E5DCD6;
+  --line-strong: #C9BDB5;
+  --ink: #1F4452;
+  --ink-muted: #4E6F78;
+  --slate: #326273;
+  --teal: #5C9EAD;
+  --gold: #D9A441;
+  --gold-tint: #FDF3DC;
+  --gold-ink: #7A5410;
+  --ok: #2E7D6B;
+  --ok-bg: #E4F1ED;
+  --warn: #B4690E;
+  --warn-bg: #FBEFDD;
+  --error: #B3402F;
+  --error-bg: #F9E7E3;
+  --pending: #6B7C85;
+  --pending-bg: #EDEFF0;
+
+  --background: var(--bg);
+  --foreground: var(--ink);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-gold: var(--gold);
+  --color-gold-tint: var(--gold-tint);
+  --color-gold-ink: var(--gold-ink);
+  --color-teal: var(--teal);
+  --color-slate: var(--slate);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-geist-sans), Arial, sans-serif;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Numbers line up in columns */
+.tnum { font-variant-numeric: tabular-nums; }
+
+/* Card: white, 20px radius, 1px border, lifts slightly on hover */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  transition: box-shadow 160ms ease, transform 160ms ease;
+}
+.card:hover { box-shadow: 0 6px 16px rgba(31, 68, 82, 0.08); }
+
+@media (prefers-reduced-motion: reduce) {
+  .card, .card:hover { transition: none; transform: none; box-shadow: none; }
+}
+
+/* Visible focus rings everywhere */
+:focus-visible {
+  outline: 2px solid var(--slate);
+  outline-offset: 2px;
+}
+
+/* Primary gold button */
+.btn-primary {
+  background: var(--gold);
+  color: var(--gold-ink);
+  border-radius: 12px;
+  font-weight: 600;
+  padding: 10px 18px;
+  border: 1px solid var(--gold);
+}
+.btn-primary:hover { filter: brightness(1.05); }
+.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.btn-secondary {
+  background: var(--surface);
+  color: var(--ink);
+  border-radius: 12px;
+  font-weight: 600;
+  padding: 10px 18px;
+  border: 1px solid var(--line-strong);
+}
+.btn-secondary:hover { background: var(--surface-2); }
+
+/* Form fields */
+.field {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  border-radius: 12px;
+  padding: 10px 14px;
+  color: var(--ink);
+}
+.field::placeholder { color: var(--ink-muted); opacity: 0.7; }
+
+/* Testnet banner */
+.testnet-banner {
+  background: var(--warn-bg);
+  color: var(--warn);
+  font-size: 13px;
+  text-align: center;
+  padding: 6px 12px;
 }
