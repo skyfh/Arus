@@ -9,7 +9,7 @@
     "lint": "eslint",
     "smoke": "tsx --env-file=.env scripts/smoke-v2.mts",
     "smoke:zeke": "tsx --env-file=.env scripts/smoke-zeke.mts",
-    "eval:zeke": "tsx --env-file=.env scripts/eval-zeke.ts",
+    "eval:zeke": "tsx --env-file=.env scripts/eval-zeke.mts",
     "postinstall": "prisma generate"
   },
   "dependencies": {

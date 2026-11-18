@@ -205,6 +205,14 @@ async function validateAndCreateDraft(
 ): Promise<string> {
   let args: { proposal?: unknown };
   try { args = JSON.parse(call.function.arguments || '{}'); } catch { return JSON.stringify({ error: 'ASK_USER', question: 'I need the details again — could you repeat them?' }); }
+  // The model sometimes emits recipient:{type,value} — normalize to the frozen schema shape
+  const rawProposal = args.proposal as Record<string, unknown> | undefined;
+  if (rawProposal && typeof rawProposal === 'object' && rawProposal.recipient && typeof rawProposal.recipient === 'object') {
+    const r = rawProposal.recipient as Record<string, unknown>;
+    if ('value' in r && !('handle' in r)) {
+      rawProposal.recipient = { type: r.type, handle: r.value };
+    }
+  }
   const p = Proposal.safeParse(args.proposal);
   if (!p.success) {
     return JSON.stringify({ error: 'ASK_USER', question: 'I need a bit more detail — which person and how much?' });
